@@ -13,7 +13,7 @@
 
 <p align="center"><sub>Only this mod enabled, in a real terminal session. The button shows Wrapping up while the checklist runs.</sub></p>
 
-Sessions rarely end cleanly. Press Wrap up and the session and its subagents stop at a suitable moment, then work through the same checklist every time, so nothing is left uncommitted or undocumented by accident.
+Sessions rarely end cleanly. Press Wrap up and the session and its subagents stop at a suitable moment, then work through the same checklist every time, so less gets left uncommitted or undocumented by accident.
 
 ## Install
 
@@ -36,7 +36,7 @@ In the desktop app, click + next to the prompt box, then Plugins, Add marketplac
 
 ## What it does
 
-- **Stops gently:** Running subagents get a message to finish, and a running turn hears it on its next tool result. Nothing is cut off.
+- **Stops gently:** Running subagents get a message to finish, and a running turn hears it on its next tool result.
 - **Same checklist every time:** Stop, verify, docs, handoffs and tracking, commits, report.
 - **Docs before commits:** Docs and handoffs come first, so they land in the same commit.
 - **Your call on Git:** It asks before committing, then asks again before pushing.
@@ -59,6 +59,7 @@ No network, no shell commands and no file access through the mod API. It lists y
 
 - It tells the subagents of this session. Separate sessions you started from the app are not told.
 - A permission prompt during the checklist waits for you, as usual.
+- The checklist is instructions to Claude, and Claude can miss a step. Check the result yourself.
 - It draws its own Wrap up button after your first turn. With [`claude-bars`](https://github.com/YlitaloJuha/claude-bars) installed, the button moves onto that line.
 - Tested in real sessions, including clicks on the button in the desktop app.
 
@@ -70,6 +71,10 @@ claude plugin test .
 claude --plugin-dir .
 ```
 
+## Make it yours
+
+Once it is loaded, ask your own Claude to fit it to how you work, for example to make the checklist match how your team ships. The code is in `hooks/register.tsx`, and the license allows changes. Keep your version in a fork, so an update does not replace it. What you change is yours to check.
+
 ## Try other mods together
 
 This mod works on its own, and it also works side by side with my other Claude Code mods. See [the full list on my profile](https://github.com/YlitaloJuha/YlitaloJuha#claude-code-mods).
@@ -79,3 +84,7 @@ This mod works on its own, and it also works side by side with my other Claude C
 [MIT](LICENSE).
 
 Provided **as is, with no warranty of any kind**. You use it at your own risk, and the author is not liable for anything that results from using it, including lost work, usage charges or changes to your code.
+
+**It may break.** It relies on how Claude Code works today, and has been tested on version 2.1.292. It may stop working after a future update if Anthropic changes things.
+
+This is an independent, unofficial project. It is not affiliated with, endorsed by or supported by Anthropic.
