@@ -1,0 +1,17 @@
+{
+  "name": "wrap-up",
+  "version": "0.1.0",
+  "description": "One button to finish a session properly: stop, verify, update the docs, leave a handoff, then ask before you commit.",
+  "author": {
+    "name": "Juha Ylitalo",
+    "url": "https://github.com/YlitaloJuha"
+  },
+  "types": "./types/index.d.ts",
+  "repository": "https://github.com/YlitaloJuha/claude-wrap-up",
+  "keywords": [
+    "claude-code-mods",
+    "claude-mods",
+    "function-hooks",
+    "mod"
+  ]
+}

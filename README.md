@@ -1,0 +1,74 @@
+<h1 align="center">claude-wrap-up</h1>
+
+<p align="center"><b>One button to finish a session properly: stop, verify, update the docs, leave a handoff, then ask before you commit.</b></p>
+
+<p align="center">
+  <img alt="type: Claude Code mod" src="https://img.shields.io/badge/type-Claude%20Code%20mod-6f42c1?style=flat-square">
+  <img alt="tested on: Claude Code 2.1.292" src="https://img.shields.io/badge/tested%20on-Claude%20Code%202.1.292-D97757?style=flat-square">
+  <img alt="tests: 6 passing" src="https://img.shields.io/badge/tests-6%20passing-2ea44f?style=flat-square">
+</p>
+
+<p align="center"><img src="docs/usage.svg" alt="The wrap-up checklist reaching a real session" width="860"></p>
+
+<p align="center"><sub>The checklist reaching a real terminal session.</sub></p>
+
+Sessions rarely end cleanly. Press Wrap up and the session and its subagents stop at a suitable moment, then work through the same checklist every time, so nothing is left uncommitted or undocumented by accident.
+
+## Install
+
+In a terminal, inside Claude Code:
+
+```
+/plugin install wrap-up --marketplace YlitaloJuha/claude-wrap-up
+```
+
+Or from a shell:
+
+```bash
+claude plugin install wrap-up --marketplace YlitaloJuha/claude-wrap-up
+```
+
+In the desktop app, click + next to the prompt box, then Plugins, Add marketplace with `YlitaloJuha/claude-wrap-up`, then Add plugin.
+
+> [!NOTE]
+> This repository is private for now. Installing needs read access and a GitHub credential on your machine, such as `gh auth login` then `gh auth setup-git`.
+
+## What it does
+
+- **Stops gently:** Running subagents get a message to finish, and a running turn hears it on its next tool result. Nothing is cut off.
+- **Same checklist every time:** Stop, verify, docs, handoffs and tracking, commits, report.
+- **Docs before commits:** Docs and handoffs come first, so they land in the same commit.
+- **Your call on Git:** It asks before committing, then asks again before pushing.
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `/wrap-up` | Start wrapping up |
+
+## What it costs
+
+One normal Claude turn for the checklist, plus whatever the checks need. The mod makes no extra model calls.
+
+## What it can reach
+
+No network, no shell commands and no file access through the mod API. It lists your subagents, sends them one message, and queues the checklist as a prompt. Run `claude plugin validate .` in this repository to list every call it makes.
+
+## Limits
+
+- It tells the subagents of this session. Separate sessions you started from the app are not told.
+- A permission prompt during the checklist waits for you, as usual.
+- The button needs [`claude-bars`](https://github.com/YlitaloJuha/claude-bars). Without it, use `/wrap-up`.
+- The button has only been pressed in tests. `/wrap-up` has been run live.
+
+## Develop
+
+```bash
+claude plugin validate .
+claude plugin test .
+claude --plugin-dir .
+```
+
+## License
+
+Not chosen yet, so all rights are reserved for now.
