@@ -5,12 +5,12 @@
 <p align="center">
   <img alt="type: Claude Code mod" src="https://img.shields.io/badge/type-Claude%20Code%20mod-6f42c1?style=flat-square">
   <img alt="tested on: Claude Code 2.1.292" src="https://img.shields.io/badge/tested%20on-Claude%20Code%202.1.292-D97757?style=flat-square">
-  <img alt="tests: 6 passing" src="https://img.shields.io/badge/tests-6%20passing-2ea44f?style=flat-square">
+  <img alt="tests: 9 passing" src="https://img.shields.io/badge/tests-9%20passing-2ea44f?style=flat-square">
 </p>
 
-<p align="center"><img src="docs/usage.svg" alt="The wrap-up checklist reaching a real session" width="860"></p>
+<p align="center"><img src="docs/usage.svg" alt="wrap-up alone, running its checklist in a real terminal session" width="860"></p>
 
-<p align="center"><sub>The checklist reaching a real terminal session.</sub></p>
+<p align="center"><sub>Only this mod enabled, in a real terminal session. The button shows Wrapping up while the checklist runs.</sub></p>
 
 Sessions rarely end cleanly. Press Wrap up and the session and its subagents stop at a suitable moment, then work through the same checklist every time, so nothing is left uncommitted or undocumented by accident.
 
@@ -58,7 +58,7 @@ No network, no shell commands and no file access through the mod API. It lists y
 
 - It tells the subagents of this session. Separate sessions you started from the app are not told.
 - A permission prompt during the checklist waits for you, as usual.
-- The button needs [`claude-bars`](https://github.com/YlitaloJuha/claude-bars). Without it, use `/wrap-up`.
+- It draws its own Wrap up button after your first turn. With [`claude-bars`](https://github.com/YlitaloJuha/claude-bars) installed, the button moves onto that line.
 - The button has only been pressed in tests. `/wrap-up` has been run live.
 
 ## Develop

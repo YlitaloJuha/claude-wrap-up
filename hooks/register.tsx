@@ -96,4 +96,23 @@ export const register: Register = on => {
     if (e.reason === 'clear' || e.reason === 'resume') await update($, phase, () => 'idle')
     return next(e)
   })
+
+  // The bars mod holds this button on its line; without it, this draws its own.
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    const rest = await next(e)
+    if (e.props.hasSurvey || (await $.command.list()).some(c => c.name === 'bars')) return rest
+    const state = await read($, phase)
+    if (state === 'idle' && !e.props.isWorking && (await $.session.turns()) === 0) return rest
+    const { Box, Button, Text } = $.ui.resolve(e)
+    return (
+      <Box flexDirection="column">
+        {rest}
+        <Box flexDirection="row" justifyContent="flex-end">
+          {state === 'idle'
+            ? <Button key="wrap-up" label="Wrap up" plain dimColor onPress={() => wrapUp($)} />
+            : <Text dimColor>Wrapping up</Text>}
+        </Box>
+      </Box>
+    )
+  })
 }

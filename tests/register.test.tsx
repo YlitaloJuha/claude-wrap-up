@@ -1,5 +1,5 @@
 import { expect, mock, test } from 'claude-code/testing'
-import type { On, SessionStartInput, TurnCompleteInput } from 'claude-code'
+import type { On, RenderPropsOf, SessionStartInput, TurnCompleteInput } from 'claude-code'
 
 import { AGENT_MESSAGE, CHECKLIST, TURN_NOTICE } from '../hooks/register'
 
@@ -9,7 +9,10 @@ type AnsweredTurn = Exclude<TurnCompleteInput, { reason: 'refusal' }>
 let turns = 0
 const turn = (over: Partial<AnsweredTurn> = {}): TurnCompleteInput => ({ answer: 'ok', durationMs: 1000, isAborted: false, turnId: 't' + ++turns, reason: 'answer', ...over })
 
-function world(on: On, list: Array<{ id: string; status: string }> = [], count = 3) {
+const props: RenderPropsOf['AbovePrompt'] = { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 75, scroll: { offset: 0, bodyRows: 10 }, view: {} }
+const mount = { plugin: 'wrap-up', surface: 'desktop', component: 'AbovePrompt', props } as const
+
+function world(on: On, list: Array<{ id: string; status: string }> = [], count = 3, commands: string[] = []) {
   const sent: Array<{ to: unknown; text: string }> = []
   const prompts: string[] = []
   on('session.start', ($, e) => ({ cwd: e.cwd }))
@@ -21,6 +24,7 @@ function world(on: On, list: Array<{ id: string; status: string }> = [], count =
   on('prompt.submit', ($, e) => { prompts.push(e.text); return { text: e.text } })
   on('turn.complete', ($, e) => ({ text: e.answer }))
   on('tool.call', () => ({ result: {} }))
+  on('command.list', () => ({ value: commands.map(name => ({ name, description: '', source: 'plugin' as const })) }))
   on('ui.toast', () => ({ value: undefined }))
   on('ui.render', ($, e) => $.ui.resolve(e).Text({ children: ['beneath'] }))
   return { sent, prompts }
@@ -91,6 +95,38 @@ test('a running turn hears it once, on its next tool result, and a subagent call
   expect(first.context).toEqual([TURN_NOTICE])
   const second = await $.tool.call({ tool: 'Read', file_path: 'c' } as never)
   expect(second.context).toBeUndefined()
+})
+
+test('on its own it draws a button that starts the checklist', async ($, on) => {
+  const clock = mock.clock(on)
+  const w = world(on)
+  await $.session.start(session)
+  for (const surface of ['terminal', 'desktop', 'vscode', 'mobile'] as const) {
+    const each = await $.ui.mount({ ...mount, surface })
+    expect(await each.find({ key: 'wrap-up' })).toBeDefined()
+    await each.unmount()
+  }
+  const ui = await $.ui.mount(mount)
+  await ui.press({ key: 'wrap-up' })
+  await clock.advance(5)
+  expect(w.prompts).toEqual([CHECKLIST])
+  expect((await ui.find({ type: 'Text', text: /Wrapping up/ }))).toBeDefined()
+})
+
+test('no button before the first turn', async ($, on) => {
+  mock.clock(on)
+  world(on, [], 0)
+  await $.session.start(session)
+  const ui = await $.ui.mount(mount)
+  expect(await ui.find({ key: 'wrap-up' })).toBeUndefined()
+})
+
+test('with the bars mod it leaves the button to that line', async ($, on) => {
+  mock.clock(on)
+  world(on, [], 3, ['bars'])
+  await $.session.start(session)
+  const ui = await $.ui.mount(mount)
+  expect(await ui.find({ key: 'wrap-up' })).toBeUndefined()
 })
 
 test('an idle press adds nothing to tool results', async ($, on) => {
