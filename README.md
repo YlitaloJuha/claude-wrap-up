@@ -60,7 +60,7 @@ No network, no shell commands and no file access through the mod API. It lists y
 - It tells the subagents of this session. Separate sessions you started from the app are not told.
 - A permission prompt during the checklist waits for you, as usual.
 - It draws its own Wrap up button after your first turn. With [`claude-bars`](https://github.com/YlitaloJuha/claude-bars) installed, the button moves onto that line.
-- The checklist has run in real sessions, started through `/wrap-up` and the function the button calls. A click on the button itself has only been checked in tests.
+- Tested in real sessions, including clicks on the button in the desktop app.
 
 ## Develop
 
