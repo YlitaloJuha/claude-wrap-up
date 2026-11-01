@@ -1,5 +1,6 @@
 {
   "name": "claude-wrap-up",
+  "description": "One button to finish a session properly: stop, verify, update the docs, leave a handoff, then ask before you commit.",
   "owner": {
     "name": "Juha Ylitalo",
     "url": "https://github.com/YlitaloJuha"
